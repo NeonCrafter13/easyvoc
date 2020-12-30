@@ -49,8 +49,10 @@ def send_password_reset_email(user):
             user=user,
             token=token
         ),
-        html=templating.render_template('email/reset_password.html',
-            user=user, token=token
+        html=templating.render_template(
+            'email/reset_password.html',
+            user=user,
+            token=token
         )
     )
     Thread(target=send_async_email, args=(app, msg)).start()
@@ -415,7 +417,7 @@ def result():
     user = None
     data = None
     vocs = []
-    for i in range(0,26):
+    for i in range(0, 26):
         if str(i) in session:
             vocs.append(session[str(i)])
 
@@ -520,7 +522,12 @@ def createtask():
         else:
             permcreate = False
 
-    return templating.render_template("createtask.html", user = escape(username), permcreate = permcreate, error=error)
+    return templating.render_template(
+        "createtask.html",
+        user=escape(username),
+        permcreate=permcreate,
+        error=error
+    )
 
 
 @app.route("/backcreatetask", methods=["POST"])

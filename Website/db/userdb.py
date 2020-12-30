@@ -61,7 +61,7 @@ def Create_User(name, password, email):
         a = False
     if a == False:
         h = hashlib.new("whirlpool")
-        stringLength=16
+        stringLength = 16
         characters = string.ascii_letters + string.digits + string.punctuation
         salt = ''.join(random.choice(characters) for i in range(stringLength))
         password = password + salt
@@ -87,13 +87,13 @@ def Change_Pwd(name, old_pwd, new_pwd):
     if information[2] == old_pwd:
         query = """UPDATE users SET pwd = %s, salt=%s WHERE username = %s;"""
         h = hashlib.new("whirlpool")
-        stringLength=16
+        stringLength = 16
         characters = string.ascii_letters + string.digits + string.punctuation
         salt = ''.join(random.choice(characters) for i in range(stringLength))
         new_pwd = new_pwd + salt
         h.update(new_pwd.encode())
         new_pwd = h.hexdigest()
-        cursor.execute(query, [new_pwd,salt ,name])
+        cursor.execute(query, [new_pwd, salt, name])
         succesfull = True
     else:
         succesfull = False
@@ -102,7 +102,7 @@ def Change_Pwd(name, old_pwd, new_pwd):
 
 def Change_Pwd_without_oldpwd(name, new_pwd):
     h = hashlib.new("whirlpool")
-    stringLength=16
+    stringLength = 16
     characters = string.ascii_letters + string.digits + string.punctuation
     salt = ''.join(random.choice(characters) for i in range(stringLength))
     new_pwd = new_pwd + salt
@@ -143,7 +143,8 @@ def Login(name, pwd):
             succesfull = True
         else:
             succesfull = False
-    else: succesfull = False
+    else:
+        succesfull = False
 
     return succesfull
 

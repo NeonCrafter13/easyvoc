@@ -60,7 +60,7 @@ def GetTask(name):
 
     vocs = json.loads(vocs)
 
-    vocs = set(random.choices(population = vocs, k = 25))
+    vocs = set(random.choices(population=vocs, k=25))
 
     return [name, vocs]
 
@@ -102,7 +102,7 @@ def AddVoc(name, Eng, Spa):
             Eng = json.dumps(PreEnglisch)
 
             query1 = "UPDATE vocs SET Englisch = %s WHERE (Deutsch = %s)"
-            values1 = (Eng,name)
+            values1 = (Eng, name)
 
             cursor.execute(query1, values1)
         if Spa != "":
@@ -110,7 +110,7 @@ def AddVoc(name, Eng, Spa):
             PreSpanisch.append(Spa)
             Spa = json.dumps(PreSpanisch)
             query2 = "UPDATE vocs SET Spanisch = %s WHERE (Deutsch = %s)"
-            values2 = (Spa,name)
+            values2 = (Spa, name)
             cursor.execute(query2, values2)
         conn.commit()
 
