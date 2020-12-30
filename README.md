@@ -1,6 +1,6 @@
 # easyvoc
 Eine Vokabel Lern Website
-[](https://raw.githubusercontent.com/NeonCrafter13/easyvoc_privat/master/Website/favicon.ico?token=AO4RLGP27IDAUAY7Z6IWDYC75SQSY)
+![logo](https://raw.githubusercontent.com/NeonCrafter13/easyvoc_privat/master/Website/favicon.ico?token=AO4RLGP27IDAUAY7Z6IWDYC75SQSY)
 
 
 ## Setup
