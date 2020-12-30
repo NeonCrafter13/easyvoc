@@ -1,0 +1,118 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+    integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+
+
+  {% if Task %}
+  <title>easyvoc | {{ Task[0] }}</title>
+  {% else %}
+  <title>easyvoc | DoTask</title>
+  {% endif %}
+</head>
+
+<body>
+  {% if User %}
+  {% if Task %}
+  <form action="/result" , method="post">
+    {% for i in Task[1] %}
+    <div class="card fullscreen" id="card{{loop.index}}">
+      <h1 class="card-title vocname d-flex justify-content-center">{{ i }}</h1>
+      <div class="card-body">
+        <div class="vert-middle">
+          {% if Settings[0] == "on" %}
+          <div class="card card-body english-bg">
+            <label for="{{ i }}_1" class="form-label outline-text">Englisch:</label>
+            <input type="text" class="form-control" name="{{ i }}_1" autocomplete="off">
+          </div>
+          {% endif %}
+          {% if Settings[1] == "on" %}
+          <div style="margin-top: 5px;" class="card card-body spanish-bg">
+            <label for="{{ i }}_2" class="form-label outline-text">Spanisch:</label>
+            <input type="text" class="form-control" name="{{ i }}_2" autocomplete="off">
+          </div>
+          {% endif %}
+          {% if Settings[0] == None and Settings[1] == None %}
+          <div class="alert alert-danger" role="alert">
+            <p class="error">Bitte ändern sie ihre Einstellungen auf <a href="/selecttask">/selecttask</a>. </p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <button type="button" onclick="scroll_to({{loop.index}} + 1);" class="btn btn-secondary">Weiter</button>
+      </div>
+    </div>
+    {% endfor %}
+    <button id="submit" type="submit" class="btn btn-primary">Fertig?</button>
+  </form>
+  {% else %}
+  <div class="alert alert-danger" role="alert">
+    <p class="error">Sie müssen eine Aufgabe über <a href="/selecttask">/selecttask</a> auswählen!</p>
+  </div>
+  {% endif %}
+  {% else %}
+  <div class="alert alert-danger" role="alert">
+    <p class="error">Sie müssen eingelogt sein um Aufgaben zu bearbeiten!</p>
+  </div>
+  {% endif %}
+</body>
+
+</html>
+
+<script>
+  function scroll_to(id) {
+    let elem = document.getElementById("card" + String(id));
+    if (elem == null) {
+      elem = document.getElementById("submit");
+      elem.scrollIntoView({ left: 0, block: 'start', behavior: 'smooth' });
+    } else {
+      elem.scrollIntoView({ left: 0, block: 'start', behavior: 'smooth' });
+    }
+  };
+</script>
+
+<style>
+  .outline-text {
+      text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255), -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
+  }
+
+  .english-bg {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_the_United_Kingdom.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .spanish-bg {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flag_of_Spain.svg/1280px-Flag_of_Spain.svg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .fullscreen {
+    height: 100vh;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+  }
+
+  .vocname {
+    margin-top: 10px;
+    border-radius: 1px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+  }
+
+  .vert-middle {
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+</style>

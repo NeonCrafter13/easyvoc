@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='styles/sticky-footer.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/cookiealert.css') }}" rel="stylesheet">
+
+
+
+    <title>Voc | Admin</title>
+  </head>
+  <body style="background-color: #ffc35e;">
+
+    {% if user %}
+    {% if securitylevel == 1 or securitylevel == 2 %}
+
+    <h1>Admin</h1>
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Reports</h5>
+            <a href="/admin/reports">Zur Seite</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Anfrage auf permcreate</h5>
+            <a href="/admin/request_permcreate">Zur Seite</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% else %}
+    <div class="alert alert-danger">
+      <p class="error">Sie haben keine Rechte diese Seite einzusehen</p>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="alert alert-danger">
+      <p class="error">Sie müssen eingeloggt sein!</p>
+    </div>
+    {% endif %}
+
+    <div class="alert text-center cookiealert" role="alert">
+
+      <p>Wir benutzen Cockies um diese Website nutzerfreundlicher zu machen.</p> <a href="https://cookiesandyou.com/" target="_blank">Mehr erfahren</a>
+
+      <button type="button" class="btn btn-primary btn-sm acceptcookies">OK</button>
+    </div>
+
+
+    <footer class="footer">
+      <nav class="navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Name</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/about">Über</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/impressum">Impressum</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/datenschutz">Datenschutzerklärung</a>
+            </li>
+
+          </ul>
+        </div>
+        <a class="text-light">©Marek Müller</a>
+      </nav>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/static/scripts/jquery-slim.min.js"><\/script>')</script>
+    <script src="{{ url_for('static', filename='scripts/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='scripts/cookiealert.js') }}"></script>
+  </body>
+</html>

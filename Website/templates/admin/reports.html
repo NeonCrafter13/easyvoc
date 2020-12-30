@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='styles/popup.css') }}" rel="stylesheet">
+
+
+
+    <title>Voc | Admin</title>
+  </head>
+
+  <body style="background-color: #ffc35e;">
+    <h1>Admin | Reports</h1>
+    <div class="row">
+      {% for i in data %}
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <p class="col-sm-3">id:</p>
+              <p class="col-sm-9"> {{ i[0] }} </p>
+              <p class="col-sm-3">user:</p>
+              <p class="col-sm-9"> {{ i[1] }} </p>
+              <p class="col-sm-3">type:</p>
+              <p class="col-sm-9"> {{ i[2] }} </p>
+              <p class="col-sm-3">name:</p>
+              <p class="col-sm-9"> {{ i[3] }} </p>
+              <p class="col-sm-3">reason:</p>
+              <p class="col-sm-9"> {{ i[4] }} </p>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="d-flex justify-content-center">
+                  <button class="btn btn-success" onclick="openForm('accept{{ i[0] }}');">Report Akzeptieren</button>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <div class="chat-popup" id="accept{{ i[0] }}" style="display: none;">
+                    <form action="/admin/accept_report" class="form-container" method="POST">
+
+                      <label for="options"><b>Was wollen sie machen?</b></label>
+                      <select id="options" name="options" class="form-input" required>
+                        <option value="delete">Lösche Aufgabe oder Vokabel</option>
+                        <option value="delete+">Lösche Aufgabe oder Vokabel + Benutzer</option>
+                        <option value="nothing">Selber in Datenbank ändern</option>
+                      </select>
+                      <input style="display: none;" type="text" value="{{ i[0] }}" name="id">
+                      <button type="submit" class="btn">Aktion bestätigen</button>
+                      <button type="button" class="btn cancel" onclick="closeForm('accept{{ i[0] }}');">Schließen</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="d-flex justify-content-center">
+                  <form method="post" action="/admin/refuse_report">
+                    <input style="display: none;" type="text" name="id" value="{{ i[0] }}">
+                    <button class="btn btn-danger" type = "submit">Report Löschen</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+    </div>
+    <script>
+
+    function openForm(id) {
+      document.getElementById(id).style.display = "block";
+    }
+
+    function closeForm(id) {
+      document.getElementById(id).style.display = "none";
+    }
+    </script>
+
+  </body>
+</html>

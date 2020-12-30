@@ -1,0 +1,123 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+
+
+
+    <title>easyvoc | CreateTask</title>
+  </head>
+  <body style="margin-right: 6px;
+               margin-left: 4px;
+               ">
+
+   <nav class="navbar navbar-expand-sm bg-light">
+
+                            <!-- Links -->
+   <ul class="navbar-nav">
+       <li class="nav-item">
+         <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/selecttask">Aufgabe auswählen</a>
+        </li>
+    </ul>
+
+    </nav>
+    <h1>Aufgabe erstellen</h1>
+    {% if user %}
+    {% if permcreate %}
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+      <p class="error">{{ error }}</p>
+    </div>
+    {% endif %}
+    <form action="/backcreatetask", method="post">
+      <div class="form-group row">
+        <label for="name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="name" placeholder="Name" autocomplete="off" required="on" maxlength=45>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="description" class="col-sm-2 col-form-label">Beschreibung</label>
+        <div class="col-sm-10">
+          <textarea type="text" class="form-control" name="description" placeholder="Beschreibung" autocomplete="off" required="on" maxlength="300"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="image" class="col-sm-2 col-form-label">Bild optional</label>
+        <div class="col-sm-10">
+          <input type="link" class="form-control" name="image" placeholder="Link zum Bild" autocomplete="off"
+            maxlength="300">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="1" class="col-sm-2 col-form-label">Vokabeln</label>
+        <div class="col-sm-10" id="vocs">
+          <input type="text" class="form-control" name="1" placeholder="voc" autocomplete="off" required="on">
+          <script>
+            var i = 1
+            function add_field(id) {
+              var input = document.createElement("INPUT");
+              var att1 = document.createAttribute("class");
+              var att2 = document.createAttribute("type");
+              var att3 = document.createAttribute("name");
+              var att4 = document.createAttribute("placeholder");
+              var att5 = document.createAttribute("autocomplete");
+
+              att1.value = "form-control";
+              att2.value = "text";
+              att3.value = id;
+              att4.value = "voc";
+              att5.value = "off";
+
+              input.setAttributeNode(att1);
+              input.setAttributeNode(att2);
+              input.setAttributeNode(att3);
+              input.setAttributeNode(att4);
+              input.setAttributeNode(att5);
+
+              document.getElementById("vocs").appendChild(input);
+
+            }
+          </script>
+
+
+
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <p class="col-sm-2"></p>
+        <div class="col-sm-10">
+          <button type="button" class="btn btn-secondary" onclick="i++; add_field(i);">+Vokabel</button>
+        </div>
+      </div>
+
+      <p>Durch das erstllen einer Aufgabe stimmen Sie unserer <a href="/datenschutz#create">Datenschutzerklärung</a> zu.</p>
+      <fieldset class="form-group">
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">Aufgabe erstellen</button>
+        </div>
+      </div>
+    </form>
+    {% else %}
+    <div class="alert alert-danger">
+      <p class="error">Sie haben keine Berrechtigung eine Aufgabe zu erstellen!</p>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="alert alert-danger">
+      <p class="error">Sie müssen eingeloggt sein!</p>
+    </div>
+    {% endif %}
+  </body>
+</html>

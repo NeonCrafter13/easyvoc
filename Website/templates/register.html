@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link href="{{ url_for('static', filename='styles/cookiealert.css') }}" rel="stylesheet">
+
+
+
+    <title>easyvoc | Register</title>
+  </head>
+  <body style="margin-right: 6px;
+               margin-left: 4px;
+               ">
+
+   <nav class="navbar navbar-expand-sm bg-light">
+
+                            <!-- Links -->
+   <ul class="navbar-nav">
+       <li class="nav-item">
+         <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+        </li>
+    </ul>
+
+    </nav>
+    <h1>Register</h1>
+    <form action="/login", method="post">
+      <div class="form-group row">
+        <label for="username" class="col-sm-2 col-form-label">Username</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="username" placeholder="Username" required maxlength=30>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" name="email" placeholder="Email" required maxlength=45>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="pwd1" class="col-sm-2 col-form-label">Passwort</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" name="pwd1" placeholder="Passwort" minlength=6 required maxlength=128>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="pwd2" class="col-sm-2 col-form-label">Passwort bestätigen</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" name="pwd2" placeholder="Passwort bestätigen" required>
+        </div>
+      </div>
+      {{ form.csrf_token }}
+      <p>
+        {% for error in form.recaptcha.errors %}
+            {{ error }}
+        {% endfor %}
+        {{ form.recaptcha }}
+      </p>
+      {% if error %}
+      <div class="alert alert-danger" role="alert">
+        <p class="error">{{ error }}</p>
+      </div>
+      {% endif %}
+      <p>Durch das erstellen eines Accounts stimmen Sie unseren <a href="datenschutz#register">Datenschutzbestimmungen</a> zu.</p>
+      <fieldset class="form-group">
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+      </div>
+    </form>
+    <div class="alert text-center cookiealert" role="alert">
+
+      <p>Wir benutzen Cockies um diese Website nutzerfreundlicher zu machen.</p> <a href="/datenschutz#cockies" target="_blank">Mehr erfahren</a>
+
+      <button type="button" class="btn btn-primary btn-sm acceptcookies">OK</button>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/cookiealert.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='styles/sticky-footer.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/popup.css') }}" rel="stylesheet">
+
+
+
+    <title>easyvoc | Acount</title>
+  </head>
+  <body>
+
+
+
+
+    {% if user %}
+    <nav class="navbar navbar-expand-sm bg-light">
+
+      <!-- Links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/selecttask">Aufgabe auswählen</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+
+    </nav>
+    <br>
+    <h1>Account</h1>
+    {% if error %}
+    <div class="alert alert-danger">
+      <p class="error">{{ error }}</p>
+    </div>
+    {% endif %}
+
+    {% if success %}
+    <div class="alert alert-success">
+      <p>{{ success }}</p>
+    </div>
+    {% endif %}
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Username</h5>
+            <p class="card-text">{{ user }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Email</h5>
+            <p class="card-text">{{ information[3] }}</p>
+            <button onclick="openForm('Change_Email');" class="btn btn-primary">Change Email</button>
+            <div class="chat-popup" id="Change_Email">
+              <form action="/change_email" class="form-container" method="POST">
+
+                <label for="email"><b>Neue Email:</b></label>
+                <input placeholder="Email" name="email" required type="email" class="form-control" autocomplete="email"></input>
+                <label for="password"><b>Passwort zu bestätigen:</b></label>
+                <input placeholder="Passwort" name="pwd" required type="password" class="form-control" autocomplete="off"></input>
+
+                <button type="submit" class="btn">Abschicken</button>
+                <button type="button" class="btn cancel" onclick="closeForm('Change_Email');">Schließen</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Passwort</h5>
+            <button onclick="openForm('Change_Pwd');" class="btn btn-primary">Ändere Passwort</button>
+            <div class="chat-popup" id="Change_Pwd">
+              <form action="/changepwd" class="form-container" method="POST">
+
+                <label for="old_pwd"><b>Altes Passwort:</b></label>
+                <input placeholder="Altes Passwort" name="old_pwd" required type="password" class="form-control"></input>
+                <label for="new_pwd1"><b>Neues Passwort:</b></label>
+                <input placeholder="Neues Passwort" name="new_pwd1" required type="password" class="form-control"></input>
+                <label for="new_pwd2"><b>Neues Passwort bestätigen:</b></label>
+                <input placeholder="Neues Passwort bestätigen" name="new_pwd2" required type="password" class="form-control"></input>
+
+                <button type="submit" class="btn">Abschicken</button>
+                <button type="button" class="btn cancel" onclick="closeForm('Change_Pwd');">Schließen</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Rechte zum erstellen von Inhalten</h5>
+            {% if information[4] == 1 %}
+            <p class="card-text">Ja</p>
+            {% else %}
+            <p class="card-text">Nein</p>
+            <button onclick="openForm('snd_permcreate');" class="btn btn-primary">Rechte anfordern</button>
+            {% endif %}
+            <div class="chat-popup" id="snd_permcreate">
+              <form action="/permcreate_request" class="form-container" method="POST">
+
+                <label for="why"><b>Warum wollen sie Aufgaben erstellen können?</b></label>
+                <textarea placeholder="Warum?" name="why" required type="text" class="form-control" maxlength="300"></textarea>
+
+                <button type="submit" class="btn">Abschicken</button>
+                <button type="button" class="btn cancel" onclick="closeForm('snd_permcreate');">Schließen</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Zusätzliche Information</h5>
+            {% if information[5] == 0 %}
+            <p class="card-text">Keine Rechte auf Melden</p>
+            <a href="#" class="btn btn-primary">Rechte fordern</a>
+            {% endif %}
+            {% if information[6] == 1 or information[6] == 2 %}
+            <p class="card-text">Teammitglid</p>
+            {% endif %}
+            {% if information[7] == 0 %}
+            <p class="card-text">Noch nicht Email-verifiziert</p>
+            <a href="/send_authentication_email" class = "btn btn-primary">Email noch mal schicken</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-danger" onclick="openForm('delete');">ACOUNT LÖSCHEN</button>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <div class="chat-popup" id="delete">
+        <form action="/delete_account" class="form-container" method="POST">
+
+          <label for="options"><b>Wenn sie Aufgaben erstellt haten, wie sollen wir mit denen verfahren?</b></label>
+          <select id="options" name="options" class="form-input" required>
+            <option value="delete">Lösche alle Aufgaben</option>
+            <option value="anonym">Anonymisiere alle Aufgaben</option>
+            <option value="nothing">Ändere nichts</option>
+          </select>
+          <button type="submit" class="btn">Löschen bestätigen</button>
+          <button type="button" class="btn cancel" onclick="closeForm('delete');">Schließen</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+    closeForm("Change_Pwd");
+    closeForm("Change_Email");
+    closeForm("snd_permcreate");
+    closeForm("delete");
+    function openForm(id) {
+      document.getElementById(id).style.display = "block";
+    }
+
+    function closeForm(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    </script>
+
+    {% else %}
+    <div class="alert alert-danger">
+      <a class="error">Sie müssen eingelogt sein um ihren Account einzusehen</a>
+      <br>
+      <a href="/login">Logen sie sich hier ein</a>
+    </div>
+    {% endif %}
+
+    <footer class="footer">
+      <nav class="navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">easyvoc</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/about">Über</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/impressum">Impressum</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/datenschutz">Datenschutzerklärung</a>
+            </li>
+
+          </ul>
+        </div>
+        <a class="text-light">©NeonCrafter13</a>
+      </nav>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/static/scripts/jquery-slim.min.js"><\/script>')</script>
+    <script src="{{ url_for('static', filename='scripts/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+  </body>
+</html>

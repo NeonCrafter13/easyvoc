@@ -1,0 +1,132 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+
+
+
+    <title>easyvoc | CreateTask</title>
+  </head>
+  <body style="margin-right: 6px;
+               margin-left: 4px;
+               ">
+
+   <nav class="navbar navbar-expand-sm bg-light">
+
+                            <!-- Links -->
+   <ul class="navbar-nav">
+       <li class="nav-item">
+         <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/selecttask">Aufgabe auswählen</a>
+        </li>
+    </ul>
+
+    </nav>
+    <h1>Aufgabe erstellen</h1>
+    {% if user %}
+    <form action="/backcreatetask2", method="post">
+
+      {% if error %}
+      <div class="alert alert-danger" role="alert">
+        <p class="error">{{ error }}</p>
+      </div>
+      {% endif %}
+
+      {% for i in data %}
+      <div class="card">
+        <div class"card-body">
+          <h4>{{ i[0] }}</h4>
+
+          <div id="{{ i[0] }}Englisch">
+            <a>Englisch:</a>
+            {% for o in i[1] %}
+              <a>{{ o }}</a>
+            {% endfor %}
+          </div>
+
+          <div id="{{ i[0] }}Spanisch">
+            <a>Spanisch:</a>
+            {% for o in i[2] %}
+              <a>{{ o }}</a>
+
+            {% endfor %}
+          </div>
+
+        <button id="{{ i[0] }}Button" type="button" class="btn btn-secondary" onclick="add_translation('{{ i[0] }}');">Übersetzung hinzufügen</button>
+
+        </div>
+      </div>
+      {% endfor %}
+      <script>
+        function add_translation(id) {
+          var input = document.createElement("INPUT");
+
+          var att1 = document.createAttribute("class");
+          var att2 = document.createAttribute("type");
+          var att3 = document.createAttribute("name");
+          var att4 = document.createAttribute("placeholder");
+          var att5 = document.createAttribute("autocomplete")
+
+          att1.value = "form-control";
+          att2.value = "text";
+          att3.value = id+"Englisch";
+          att4.value = "Englisch";
+          att5.value = "off";
+
+          input.setAttributeNode(att1);
+          input.setAttributeNode(att2);
+          input.setAttributeNode(att3);
+          input.setAttributeNode(att4);
+          input.setAttributeNode(att5);
+
+          //set_cookie(i);
+
+          document.getElementById(id+"Englisch").appendChild(input);
+
+          var input = document.createElement("INPUT");
+
+          var att1 = document.createAttribute("class");
+          var att2 = document.createAttribute("type");
+          var att3 = document.createAttribute("name");
+          var att4 = document.createAttribute("placeholder");
+          var att5 = document.createAttribute("autocomplete");
+
+          att1.value = "form-control";
+          att2.value = "text";
+          att3.value = id+"Spanisch"
+          att4.value = "Spanisch";
+          att5.value = "off";
+
+          input.setAttributeNode(att1);
+          input.setAttributeNode(att2);
+          input.setAttributeNode(att3);
+          input.setAttributeNode(att4);
+          input.setAttributeNode(att5);
+
+          document.getElementById(id+"Spanisch").appendChild(input);
+
+          var btn = document.getElementById(id+"Button");
+          btn.remove();
+        }
+        </script>
+
+      <fieldset class="form-group">
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+        </div>
+      </div>
+    </form>
+
+    {% else %}
+    <div class="alert alert-danger">
+      <p class="error">Sie müssen eingeloggt sein!</p>
+    </div>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='styles/sticky-footer.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/cookiealert.css') }}" rel="stylesheet">
+
+
+
+    <title>easyvoc | HOME</title>
+  </head>
+  <body>
+
+
+
+
+    {% if username %}
+    <nav class="navbar navbar-expand-sm bg-light">
+
+      <!-- Links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/selecttask">Aufgabe auswählen</a>
+        </li>
+
+        {% if permcreate %}
+        <li class="nav-item">
+          <a class="nav-link" href="/createtask">Aufgabe erstellen</a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/account">Account</a>
+        </li>
+    </nav>
+    <br>
+    <h1>Home</h1>
+    <p>Hallo {{username}}</p>
+    {% else %}
+    <nav class="navbar navbar-expand-sm bg-light">
+
+      <!-- Links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+      </ul>
+
+    </nav>
+    <br>
+    <h1>Home</h1>
+    <p>Sie sind nicht eingeloggt.</p>
+    {% endif %}
+
+    <div class="card">
+      <div class="card-body">
+        <h4>Was ist easyvoc?</h4>
+        <p class="text">
+          "easyvoc" ist eine Website zum lernen von Vokabeln. Sie zeichnet sich dadurch aus,
+          dass sie für eine Vokabel mehrere Übersetzungen vorhanden sein können und Vokabeln aus mehrere Sprachen gleichzeitig gelernt werden können.
+          <br>
+          Aktuell verfügbare Sparchen sind: Englisch und Spanisch
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h4>Wie funktioniert das lernen mit dieser Website?</h4>
+        <p class="text">
+          Erstelle dir einen Account über die <a href="/register">Register</a> Seite und logge dich ein.
+          <br>
+          Dann gehts du zu <a href="/selecttask">Aufgabe auswählen</a>. Dort kannst du eine aus mehrere Aufgaben wählen.
+          <br>
+          Dann füllst du die Felder aus. Wenn du fertig bist klickst du auf <b>fertig?</b>, dann werden dir automatisch deine Aufgaben korregiert.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h4>Wollen sie eine Aufgabe erstellen?</h4>
+        <p class="text">
+            Wenn sie selber Aufgaben erstellen wollen gehen sie auf ihren <a href="/account">Account</a>.
+            <br>
+            Schauen sie dort in die Rubrik <b>Rechte zum erstellen von Inhalten</b> und klicken sie auf <b>Rechte anfordern</b>.
+            <br>
+            Füllen sie das Fomular aus, und ihre Anfrage wird überprüft werden.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="alert text-center cookiealert" role="alert">
+
+      <p>Wir benutzen Cockies um diese Website nutzerfreundlicher zu machen.</p> <a href="/datenschutz#cockies" target="_blank">Mehr erfahren</a>
+
+      <button type="button" class="btn btn-primary btn-sm acceptcookies">OK</button>
+    </div>
+
+    <footer class="footer">
+      <nav class="navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">easyvoc</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/about">Über</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/impressum">Impressum</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/datenschutz">Datenschutzerklärung</a>
+            </li>
+
+          </ul>
+        </div>
+        <a class="text-light">©NeonCrafter13</a>
+      </nav>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/static/scripts/jquery-slim.min.js"><\/script>')</script>
+    <!-- JavaScript and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
+    <script src="{{ url_for('static', filename='scripts/cookiealert.js') }}"></script>
+  </body>
+</html>

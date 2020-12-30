@@ -1,0 +1,197 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link href="{{ url_for('static', filename='styles/sticky-footer.css') }}" rel="stylesheet">
+
+
+
+
+    <title>easyvoc | Result</title>
+  </head>
+
+  <body>
+
+    {% if user %}
+
+    <nav class="navbar navbar-expand-sm bg-light">
+
+      <!-- Links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/selecttask">Aufgabe auswählen</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+
+    </nav>
+
+
+    <h1>Ergebnisse</h1>
+
+
+    {% for i in data %}
+
+    <div class="card">
+      <div class="card-body">
+        <h5>{{ i[0] }}</h5>
+
+        {% if i[1][1] %}
+          <a>Englisch:</a>
+          {% for o in i[1][1] %}
+
+            {% if o == i[1][0] %}
+              <a style="color: 007d05;">{{ i[1][0] }}</a>
+            {% else %}
+              <a style="color: ff0000;">{{ i[1][0] }}</a>
+              {% for a in i[1][1] %}
+              <a style="background-color: ffea54;">{{ a }}</a>
+              {% endfor %}
+
+            {% endif %}
+          {% endfor %}
+
+        {% endif %}
+        <br>
+
+        {% if i[2][1] %}
+          <a>Spanisch:</a>
+          {% for o in i[2][1] %}
+
+            {% if o == i[2][0] %}
+              <a style="color: 007d05;">{{ i[2][0] }}</a>
+            {% else %}
+              <a style="color: ff0000;">{{ i[2][0] }}</a>
+              {% for a in i[2][1] %}
+              <a style="background-color: ffea54;">{{ a }}</a>
+              {% endfor %}
+
+            {% endif %}
+          {% endfor %}
+
+        {% endif %}
+
+
+      </div>
+    </div>
+
+    {% endfor %}
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-secondary" onclick="openreport();">Melden</button>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="toast" data-autohide="true" id="report" style="width: 100%;">
+          <div class="toast-header">
+            <strong class="mr-auto text-primary">Melden</strong>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+          </div>
+          <div class="toast-body">
+            <b>Was möchten sie melden?</b>
+            <br>
+            <select id="select1" class="form-control" onchange="Selection();">
+              <option selected value="None">--</option>
+              <option value="voc">Vokabel</option>
+              <option value="task">Aufgabe</option>
+            </select>
+            <form action="/report" id="report-body" method="POST">
+              <div id="option1" style="display: none;">
+                <b>Welche Vokabel möchten sie melden?</b>
+                <input class="form-control" type="text" name="voc" placeholder="Voc" autocomplete="off" id="voc"></input>
+                <b>Warum möchten sie diese Vokabel melden?</b>
+                <select class="form-control" name="reason">
+                  <option value="None">--</option>
+                  <option value="translation_incorrect">Enthält false Übersetzungen.</option>
+                  <option value="javascript_included">Enthält Javascript</option>
+                  <option value="other">Sonstige</option>
+                </select>
+                <p>Durch das absenden einer Meldung stimmen Sie unserer <a href="datenschutz#report">Datenschutzerklärung</a> zu.</p>
+                <button class="btn btn-primary" type="submit">Absenden</button>
+
+              </div>
+              <div id="option2" style="display: none;">
+                <b>Welche Aufgabe möchten sie melden?</b>
+                <input class="form-control" type="text" name="task" placeholder="Aufgabe" autocomplete="off" id="task"></input>
+                <b>Warum möchten sie diese Aufgabe melden?</b>
+                <select class="form-control" name="reason">
+                  <option value="None">--</option>
+                  <option value="content_notAllowed">Enthält rassistische, sexistische oder terroristische Inhalte</option>
+                  <option value="javascript_included">Enthält Javascript</option>
+                  <option value="other">Sonstige</option>
+                </select>
+                <p>Durch das absenden einer Meldung stimmen Sie unserer <a href="datenschutz#report">Datenschutzerklärung</a> zu.</p>
+                <button class="btn btn-primary" type="submit">Absenden</button>
+              </div>
+            </form>
+            <br>
+          </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- JavaScript and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
+
+    <script>
+    $(document).ready(function(){
+      $('.toast').toast('show');
+    });
+
+    function openreport() {
+      var att = document.createAttribute('class');
+      att.value = "toast fade show";
+      document.getElementById('report').setAttributeNode(att);
+    }
+    function Selection() {
+      var x = document.getElementById("select1").value;
+      if (x == "voc"){
+        document.getElementById("option1").style.display = "block";
+        document.getElementById("option2").style.display = "none";
+      }
+      if (x == "task"){
+        document.getElementById("option1").style.display = "none";
+        document.getElementById("option2").style.display = "block";
+      }
+    }
+    </script>
+
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+      <p class="error">Sie müssen eingelogt sein um Ergebnisse zu sehen!</p>
+    </div>
+    {% endif %}
+    <footer class="footer">
+      <nav class="navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">easyvoc</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/about">Über</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/impressum">Impressum</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/datenschutz">Datenschutzerklärung</a>
+            </li>
+
+          </ul>
+        </div>
+        <a class="text-light">©NeonCrafter13</a>
+      </nav>
+    </footer>
+  </body>
+</html>

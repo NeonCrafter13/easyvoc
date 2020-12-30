@@ -1,0 +1,9 @@
+Hallo {{ user[1] }},
+
+Um ihr Konto zu authentifizieren öfnnen sie den folgenden Link:
+
+{{ url_for('autheticate', token=token, _external=True) }}
+
+Mit freundlichen Grüßen
+
+Ihr easyvoc Team

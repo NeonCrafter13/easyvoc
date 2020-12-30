@@ -1,0 +1,11 @@
+<p>Hallo {{ user[1] }},</p>
+<p>
+  Um ihr Konto zu authentifizieren
+    <a href="{{ url_for('autheticate', token=token, _external=True) }}">
+        klicken sie hier
+    </a>.
+</p>
+<p>Oder kopieren sie diesen Link in die Adressleiste ihres Browsers</p>
+<p>{{ url_for('autheticate', token=token, _external=True) }}</p>
+<p>Mit freundlichen Grüßen</p>
+<p>Ihr easyvoc Team</p>
