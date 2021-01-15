@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv("email_auth_key")
 def get_reset_password_token(user, expires_in=600):
     return jwt.encode(
         {'reset_password': userdb.Get_User_Email(user)[0], 'exp': time() + expires_in},
-        SECRET_KEY, algorithm='HS256').decode('utf-8')
+        SECRET_KEY, algorithm='HS256')
 
 def verify_reset_password_token(token):
     try:
@@ -24,7 +24,7 @@ def verify_reset_password_token(token):
 def get_authentication_token(user, expires_in=600):
     return jwt.encode(
         {'authentication': user[0], 'exp': time() + expires_in},
-        SECRET_KEY, algorithm='HS256').decode('utf-8')
+        SECRET_KEY, algorithm='HS256')
 
 def verify_authentication_token(token):
     try:
