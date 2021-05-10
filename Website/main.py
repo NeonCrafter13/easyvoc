@@ -296,19 +296,18 @@ def report():
             user = None
     if not user:
         return "error"
-    name = None
-    reason = None
-    type = None
-    try:
-        name = request.form["voc"]
-        reason = request.form["reason"]
-        type = "voc"
-    except:
-        name = request.form["task"]
-        reason = request.form["reason"]
-        type = "task"
-    if name != None:
-        requestdb.CreateReport(user, type, name, reason)
+
+    type = request.form.get("type")
+    if type == "task":
+        name = request.form.get("task")
+        reason = request.form.get("reason_task")
+    elif type == "voc":
+        name = request.form.get("voc")
+        reason = request.form.get("reason_voc")    
+    else:
+        return "Error", 400
+
+    requestdb.CreateReport(user, type, name, reason)
     return templating.render_template("report.html")
 
 
