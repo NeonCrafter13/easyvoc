@@ -25,6 +25,7 @@
       <h1 class="card-title vocname d-flex justify-content-center">{{ i }}</h1>
       <div class="card-body">
         <div class="vert-middle">
+          <input type="hidden" value="{{ i }}" class="form-control" name="{{ loop.index0 }}" autocomplete="off">
           {% if Settings[0] == "on" %}
           <div class="card card-body english-bg">
             <label for="{{ i }}_1" class="form-label outline-text">Englisch:</label>

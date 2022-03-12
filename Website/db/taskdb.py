@@ -34,11 +34,19 @@ def GetVoc(name):
     Englisch = information[2]
     Spanisch = information[3]
 
-    Englisch = json.loads(Englisch)
-    Spanisch = json.loads(Spanisch)
+    Englisch: list = json.loads(Englisch)
+    Spanisch: list = json.loads(Spanisch)
 
     return [Deutsch, Englisch, Spanisch]
 
+def GetTranslation(name, lang) -> list:
+    query = "SELECT " + lang + " FROM vocs WHERE Deutsch = '" + name + "'"
+    cursor.execute(query)
+    information = cursor.fetchone()
+    if information is None:
+        return None
+    trans: list = json.loads(information[0])
+    return trans
 
 def GetallTasks():
     query = """SELECT * FROM tasks"""
@@ -95,20 +103,20 @@ def AddVoc(name, Eng, Spa):
         conn.commit()
     else:
         if Eng != "":
-            PreEnglisch = a[1]
+            PreEnglisch = set(a[1])
 
-            PreEnglisch.append(Eng)
+            PreEnglisch.add(Eng)
 
-            Eng = json.dumps(PreEnglisch)
+            Eng = json.dumps(list(PreEnglisch))
 
             query1 = "UPDATE vocs SET Englisch = %s WHERE (Deutsch = %s)"
             values1 = (Eng, name)
 
             cursor.execute(query1, values1)
         if Spa != "":
-            PreSpanisch = a[2]
-            PreSpanisch.append(Spa)
-            Spa = json.dumps(PreSpanisch)
+            PreSpanisch = set(a[2])
+            PreSpanisch.add(Spa)
+            Spa = json.dumps(list(PreSpanisch))
             query2 = "UPDATE vocs SET Spanisch = %s WHERE (Deutsch = %s)"
             values2 = (Spa, name)
             cursor.execute(query2, values2)

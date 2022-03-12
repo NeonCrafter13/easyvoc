@@ -35,53 +35,95 @@
 
     <h1>Ergebnisse</h1>
 
-
-    {% for i in data %}
-
-    <div class="card">
-      <div class="card-body">
-        <h5>{{ i[0] }}</h5>
-
-        {% if i[1][1] %}
-          <a>Englisch:</a>
-          {% for o in i[1][1] %}
-
-            {% if o == i[1][0] %}
-              <a style="color: 007d05;">{{ i[1][0] }}</a>
-            {% else %}
-              <a style="color: ff0000;">{{ i[1][0] }}</a>
-              {% for a in i[1][1] %}
-              <a style="background-color: ffea54;">{{ a }}</a>
-              {% endfor %}
-
-            {% endif %}
-          {% endfor %}
-
-        {% endif %}
-        <br>
-
-        {% if i[2][1] %}
-          <a>Spanisch:</a>
-          {% for o in i[2][1] %}
-
-            {% if o == i[2][0] %}
-              <a style="color: 007d05;">{{ i[2][0] }}</a>
-            {% else %}
-              <a style="color: ff0000;">{{ i[2][0] }}</a>
-              {% for a in i[2][1] %}
-              <a style="background-color: ffea54;">{{ a }}</a>
-              {% endfor %}
-
-            {% endif %}
-          {% endfor %}
-
-        {% endif %}
-
-
-      </div>
+    <div id="results">
     </div>
 
-    {% endfor %}
+
+    <script>
+    let data = [
+        {% for i in data %}
+        { "voc": "{{ i[0] }}", "english": "{{ i[1] }}", "spanish": "{{ i[2] }}" },
+
+
+        {% endfor %}
+
+    ];
+
+    data.forEach(element => {
+      let html_elem = document.createElement("div");
+      html_elem.class = "card card-body";
+      let title = document.createElement("h5");
+      title.innerText = element["voc"]
+      html_elem.appendChild(title);
+      if (element["english"] != "None"){
+        fetch("/api/get_voc/" + element["voc"] + "/" + "Englisch" ).then(response => {
+          return response.json();
+        }).then(data_resp => {
+          let eng_title = document.createElement("a");
+          eng_title.innerText = "Englisch:";
+          html_elem.append(eng_title)
+
+          let checked = false;
+          data_resp.forEach(i => {
+            if(element["english"] == i) {
+              let correct = document.createElement("a");
+              correct.innerText = element["english"];
+              correct.style = "color: #007d05;";
+              html_elem.appendChild(correct);
+              checked = true;
+            }
+          });
+          if (!checked){
+            let wrong = document.createElement("a");
+            wrong.innerText = element["english"];
+            wrong.style = "color: #ff0000;";
+            html_elem.appendChild(wrong);
+
+            let correct = document.createElement("a");
+            correct.innerText = data_resp.join();
+            correct.style = "background-color: ffea54;";
+            html_elem.appendChild(correct);
+          }
+          html_elem.appendChild(document.createElement("br"))
+        })
+      }
+      if (element["spanish"] != "None") {
+        fetch("/api/get_voc/" + element["voc"] + "/" + "Spanisch").then(response => {
+          return response.json();
+        }).then(data_resp => {
+          let span_title = document.createElement("a");
+          span_title.innerText = "Spanisch:";
+          html_elem.append(span_title)
+
+          let checked = false;
+          data_resp.forEach(i => {
+            if (element["spanish"] == i) {
+              let correct = document.createElement("a");
+              correct.innerText = element["spanish"];
+              correct.style = "color: #007d05;";
+              html_elem.appendChild(correct);
+              checked = true;
+            }
+          });
+
+          if (!checked) {
+            let wrong = document.createElement("a");
+            wrong.innerText = element["spanish"];
+            wrong.style = "color: #ff0000;";
+            html_elem.appendChild(wrong);
+
+            let correct = document.createElement("a");
+            correct.innerText = data_resp.join();
+            correct.style = "background-color: ffea54;";
+            html_elem.appendChild(correct);
+          }
+          html_elem.appendChild(document.createElement("br"))
+        })
+      }
+    document.getElementById("results").appendChild(html_elem);
+    });
+
+    </script>
     <div class="d-flex justify-content-center">
       <button class="btn btn-secondary" onclick="openreport();">Melden</button>
     </div>

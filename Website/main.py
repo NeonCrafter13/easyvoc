@@ -1,6 +1,7 @@
 # Pre Installed Imports
 import os
-from flask import Flask, templating, request, escape, session, redirect, make_response
+from apiflask import APIFlask
+from flask import templating, request, escape, session, redirect, make_response
 from flask_wtf import FlaskForm
 from flask_wtf.recaptcha import RecaptchaField
 from wtforms import StringField, SubmitField, PasswordField
@@ -14,6 +15,7 @@ from db import userdb, taskdb, requestdb
 import tokenVal
 # Blueprints Imports
 from admin import admin
+from api.voc import voc as voc_blueprint
 
 load_dotenv(dotenv_path=".envvar")
 
@@ -25,10 +27,11 @@ MAIL_USE_TLS = int(os.getenv("MAIL_USE_TLS"))
 MAIL_USERNAME = os.getenv("MAIL_USERNAME")
 MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
-app = Flask(__name__)
+app = APIFlask(__name__)
 app.config.from_object(__name__)
 
 app.register_blueprint(admin, url_prefix="/admin")
+app.register_blueprint(voc_blueprint, url_prefix="/api")
 
 app.secret_key = os.getenv("flask_key")
 app.static_folder = 'static'
@@ -303,7 +306,7 @@ def report():
         reason = request.form.get("reason_task")
     elif type == "voc":
         name = request.form.get("voc")
-        reason = request.form.get("reason_voc")    
+        reason = request.form.get("reason_voc")
     else:
         return "Error", 400
 
@@ -396,11 +399,6 @@ def dotask():
         user = session["name"]
         if not userdb.Get_User(user):
             user = None
-        else:
-            if not task == None:
-                vocs = list(task[1])
-                for i in range(0,len(vocs)):
-                    session[str(i)] = vocs[i]
 
     Settings = [request.cookies.get("Englisch"), request.cookies.get("Spanisch")]
     return templating.render_template(
@@ -415,38 +413,37 @@ def dotask():
 def result():
     user = None
     data = None
-    vocs = []
-    for i in range(0, 26):
-        if str(i) in session:
-            vocs.append(session[str(i)])
-
     Settings = [request.cookies.get("Englisch"), request.cookies.get("Spanisch")]
 
     Final = []
-
     data = request.form
     check = False
     if data is None:
         return "Error"
 
-    for i in vocs:
+    i = 0
+    running = True
+    while running:
         correct1 = None
         correct2 = None
-        if Settings[0] == "on":
-            if i + "_1" in data:
-                Eingabe = data[i + "_1"]
-                correct = taskdb.GetVoc(i)[1]
-                correct1 = [Eingabe, correct]
-                check = True
-        if Settings[1] == "on":
-            if i + "_2" in data:
-                Eingabe = data[i + "_2"]
-                correct = taskdb.GetVoc(i)[2]
-                correct2 = [Eingabe, correct]
-                check = True
-        if not check:
-            return "Error"
-        Final.append([i, correct1, correct2])
+        if str(i) in data:
+            current_voc = data[str(i)]
+            if Settings[0] == "on":
+                if current_voc + "_1" in data:
+                    Eingabe = data[current_voc + "_1"]
+                    correct1 = Eingabe
+                    check = True
+            if Settings[1] == "on":
+                if current_voc + "_2" in data:
+                    Eingabe = data[current_voc + "_2"]
+                    correct2 = Eingabe
+                    check = True
+            if not check:
+                return "Error"
+            Final.append([current_voc, correct1, correct2])
+        else:
+            running = False
+        i += 1
 
     if "name" in session:
         user = session["name"]
@@ -605,4 +602,4 @@ def backcreatetask2():
 
 
 if __name__ == '__main__':
-    app.run(port=80, threaded=True, host="0.0.0.0")
+    app.run(port=5000, threaded=True, host="0.0.0.0")
