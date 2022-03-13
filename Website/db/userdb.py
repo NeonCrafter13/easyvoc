@@ -134,6 +134,8 @@ def Change_Email(name, email, pwd):
 
 def Login(name, pwd):
     information = Get_User(name)
+    if information is None:
+        return False
     h = hashlib.new("whirlpool")
     pwd = pwd + information[8]
     h.update(pwd.encode())
